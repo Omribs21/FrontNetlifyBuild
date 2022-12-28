@@ -217,7 +217,7 @@ export default function Productmodal() {
                 prod_id: selectedID,
                 desc: selectedDesc,
                 quantity: Number(Quantitycount),
-                price: selectedprice,
+                price: discount_price,
                 size: Size,
                 total: Quantitycount * selectedprice
             }))
