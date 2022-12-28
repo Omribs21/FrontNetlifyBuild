@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://127.0.0.1:8000/RemoveFromWishlist/";
+const URL = "https://finalbackrender.onrender.com/RemoveFromWishlist/";
 
 export function RemoveItemFromWishlist(data) {
   console.log(data)

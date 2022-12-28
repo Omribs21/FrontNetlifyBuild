@@ -1,8 +1,8 @@
 import axios from "axios";
 
-const URL = "http://127.0.0.1:8000/products/";
+const URL = "https://finalbackrender.onrender.com/products/";
 
-const URL1 = "http://127.0.0.1:8000/PersonalProducts/";
+const URL1 = "https://finalbackrender.onrender.com/PersonalProducts/";
 
 export function getallproducts() {
   return new Promise((resolve) =>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://127.0.0.1:8000/AddToWishlist/";
+const URL = "https://finalbackrender.onrender.com/AddToWishlist/";
 
 export function AddToWishlist(data) {
   console.log(data)

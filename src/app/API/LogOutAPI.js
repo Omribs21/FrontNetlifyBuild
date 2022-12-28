@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const URL = "http://127.0.0.1:8000/logout/";
+const URL = "https://finalbackrender.onrender.com/logout/";
 
 export function myLogout(token) {
     return new Promise((resolve) =>

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL = "http://127.0.0.1:8000/GetOrders/";
+const URL = "https://finalbackrender.onrender.com/GetOrders/";
 
 export function GetOrders(data) {
     console.log(data)

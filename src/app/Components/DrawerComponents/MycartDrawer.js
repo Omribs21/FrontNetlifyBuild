@@ -168,7 +168,8 @@ export default function MyCartDrawer() {
 
                                 </div>
                             ) : null}
-                            <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalAmount}₪</span></p>
+                            {totalAmount > 0 ? <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalAmount}₪</span></p> : null }
+                            
                             <hr></hr>
 
                             {/* OFFICIAL PRODUCTS RENDERING: */}
@@ -194,10 +195,8 @@ export default function MyCartDrawer() {
                                     }}></hr>
                                 </div>
                             ) : null}
-                            <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalProductAmount}₪</span></p>
-
-
-
+                            {totalProductAmount > 0 ? <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalProductAmount}₪</span></p> :null}
+                            
                             <div class="animate__animated animate__backInUp" style={{ display: "flex", justifyContent: "center" }}>
                                 {PersonalProductsItems.length >= 1 ? <button style={{ marginTop: "0%", marginRight: "5%", height: "40%", width: "40%", fontSize: "15px", color: "white", backgroundColor: "dodgerblue", borderRadius: "10px" }} onClick={() => cleanCartItems()}>Clean Personal Products</button> : null}
                                 {OfficialProductItems.length >= 1 ? <button style={{ marginTop: "0%", marginLeft: "5%", height: "40%", width: "40%", fontSize: "15px", color: "white", backgroundColor: "dodgerblue", borderRadius: "10px" }} onClick={() => cleanMyCartItems()}>Clean Official Products</button> : null}
