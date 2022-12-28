@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { useSelector } from "react-redux";
 
+//  SLICE FOR THE OfficialProducts!! 
+//  Returnes values as: amount,quantity and the products.
 const Myitems = localStorage.getItem('ProductItems') != null ?
     JSON.parse(localStorage.getItem('ProductItems')) : []
 

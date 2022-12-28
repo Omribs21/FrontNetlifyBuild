@@ -4,7 +4,7 @@ const initialState = {
     prod: []
 
 };
-
+//  get signle OfficialProd by his id
 export const GetProdByIdAsync = createAsyncThunk(
     "getprodbyid/getProdById",
     async (payload) => {

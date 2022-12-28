@@ -9,11 +9,6 @@ const initialState = {
 export const sendOrderAsync = createAsyncThunk(
   "order/sendOrders",
   async (obj) => {
-    // console.log("bef");
-    // console.log(obj);
-    // console.log("aft");
-    // let token = "";
-    // let myCart = "";
     const response = await sendOrders(obj.myCart, obj.token);
     return response.data;
   }
@@ -32,20 +27,7 @@ export const orderSlice = createSlice({
       state.fullScreen = action.payload;
     },
   },
-  //  async  (3)
-  //   happens when async done - callback
-  extraReducers: (builder) => {
-    // builder.addCase(illed, (state, action) => {
-    //   console.log(action.payload);
-    //   if (action.payload.access) {
-    //     state.token = action.payload.access;
-    //     state.logged = true;
-    //     state.userName = jwt_decode(action.payload.access).username;
-    //     state.email = jwt_decode(action.payload.access).eeemail;
-    //     // console.log( state.email)
-    //   }
-    // });
-  },
+ 
 });
 
 // export sync method

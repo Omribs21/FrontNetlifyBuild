@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify';
+import {  Outlet, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import CustomizedDialogs from './FooterComponents/TermsOfService';
-import ContactUs from './FooterComponents/ContactUs';
-import ReturnPolicy from './FooterComponents/ReturnPolicy';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectFirstName, selectLastName, selectToken, selectEmail } from '../Slicers/loginSlice';
 import { selecttotalAmount, selectCartItems, cleanCart } from '../Slicers/CartSlice';
 import { addOrderAsync } from '../Slicers/FinalBuySlice';
-import { cleanMyCart, selectMyItems, selectProductAmount, selectProductItems } from '../Slicers/MycartSlice';
+import { cleanMyCart, selectProductAmount, selectProductItems } from '../Slicers/MycartSlice';
+import Footer from './FooterComponents/Footer';
 
 const FinalBuy = () => {
 
@@ -20,24 +18,18 @@ const FinalBuy = () => {
   const [district, setdistrict] = useState("")
   const [phone_number, setphone_number] = useState("")
   const [postal_code, setpostal_code] = useState("")
-  const [first_name, setFirstName] = useState(firstName);
-  const [last_name, setLastName] = useState(lastName);
-  const [email, setEmail] = useState(Email);
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const CartItems = useSelector(selectCartItems)
   const MycartItems = useSelector(selectProductItems)
   const total_amount = useSelector(selecttotalAmount)
   const Mytotal_amount = useSelector(selectProductAmount)
   const token = useSelector(selectToken)
-  const Email = useSelector(selectEmail)
-  const firstName = useSelector(selectFirstName)
-  const lastName = useSelector(selectLastName)
-
-
-
-
+  
   const notify = () => {
     if (district === '') {
-      toast.error('Please fill the username field.', {
+      toast.error('Please fill the District field.', {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -49,7 +41,7 @@ const FinalBuy = () => {
       });
     }
     else if (City === '') {
-      toast.error('Please fill the password field.', {
+      toast.error('Please fill the City field.', {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -61,7 +53,7 @@ const FinalBuy = () => {
       });
     }
     else if (phone_number === '') {
-      toast.error('Please fill the password field.', {
+      toast.error('Please your phone number.', {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -72,8 +64,8 @@ const FinalBuy = () => {
         theme: "colored",
       });
     }
-    else if (postal_code == "") {
-      toast.error('Please fill the password field.', {
+    else if (postal_code === "") {
+      toast.error('Please fill your postal code.', {
         position: "bottom-left",
         autoClose: 3000,
         hideProgressBar: false,
@@ -84,12 +76,58 @@ const FinalBuy = () => {
         theme: "colored",
       });
 
+    } else if (total_amount === 0 || Mytotal_amount ===0) {
+      toast.info('Your cart is empty!', {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+
+    } else if (first_name === "") {
+      toast.error('Please fill your First Name.', {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else if (last_name === "") {
+      toast.error('Please fill your Last.', {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
+    } else if (email === "") {
+      toast.error('Please fill your Email.', {
+        position: "bottom-left",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "colored",
+      });
     }
+
   }
 
 
   const final_buy = () => {
-    if (City != "" && district != "" && phone_number != "" && postal_code != "") {
+    if (email !== "" && first_name !== "" && last_name !== "" && City !== "" && district !== "" && phone_number !== "" && postal_code !== "" && (total_amount + Mytotal_amount) >0) {
       dispatch(addOrderAsync({
         "Token": token,
         "cartItems": { CartItems },
@@ -98,7 +136,10 @@ const FinalBuy = () => {
         "district": district,
         "phone": phone_number,
         "postalCode": postal_code,
-        "total": total_amount + Mytotal_amount
+        "total": total_amount + Mytotal_amount,
+        "first_name": first_name,
+        "last_name": last_name,
+        "email": email
       }))
       toast.success('your order saved.', {
         position: "bottom-right",
@@ -111,6 +152,7 @@ const FinalBuy = () => {
         theme: "colored",
       });
     }
+    // after the order is set, clean the cart Fully and navigate to main page.
     dispatch(cleanCart());
     dispatch(cleanMyCart());
     navigate("/products");
@@ -136,10 +178,6 @@ const FinalBuy = () => {
               <input required class="animate__animated animate__zoomInDown" style={{ width: "100%", borderRadius: "10px", fontSize: "17px", color: "black", blockSize: "50px" }} placeholder='Email' value={email} onChange={(e) => setEmail(e.target.value)} />
               <p style={{ marginTop: "15%", textDecoration: "underline", fontWeight: "bold" }}>Payment:{total_amount + Mytotal_amount}₪</p>
             </div>
-
-            {/* <div>
-              <Link to="/login"><p class="animate__animated animate__bounceInUp" style={{ fontSize: "20px" }}>Already have an account?, Click Here!</p></Link>
-            </div> */}
             <Outlet />
           </div>
           <button class="animate__animated animate__zoomInDown" style={{ width: "35%", height: "18%", borderRadius: "5px", margin: "auto", marginTop: "5%", fontSize: "17px", color: "white", blockSize: "50px", backgroundColor: "dodgerblue" }} type="button"
@@ -149,28 +187,7 @@ const FinalBuy = () => {
           </button>
         </div>
       </div>
-      <div style={{ zIndex: "5" }}>
-        <hr style={{ color: "white", backgroundColor: "white", height: "3px", marginTop: "60em" }}></hr>
-        <CustomizedDialogs />
-        <hr style={{ color: "white", backgroundColor: "white", height: "3px", marginTop: "0em" }}></hr>
-        <ContactUs />
-        <hr style={{ color: "white", backgroundColor: "white", height: "3px", marginTop: "0em" }}></hr>
-        <ReturnPolicy />
-      </div>
-      <div>
-        <svg class="waves" xmlns='http://www.w3.org/2000/svg' xmlnsXlink='http://www.w3.org/1999/xlink'
-          viewBox="0 24 150 28" preserveAspectRatio="none" shapeRendering={"auto"}>
-          <defs>
-            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
-          </defs>
-          <g class="parallax">
-            <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
-            <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-            <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-            <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff" />
-          </g>
-        </svg>
-      </div>
+      <Footer/>
     </div>
   )
 }

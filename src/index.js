@@ -10,9 +10,6 @@ import ProductsCards from './app/Components/ProductsCards';
 import LoginPage from './app/Components/LoginPage';
 import MyProfile from './app/Components/MyProfile';
 import FinalBuy from './app/Components/FinalBuy';
-import Productmodal from './app/Components/PersonalModals/ProductModal';
-import EnhancedTable from './app/Components/MyOrders';
-import ColumnGroupingTable1 from './app/Components/testsss';
 import ColumnGroupingTable from './app/Components/MyOrders';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

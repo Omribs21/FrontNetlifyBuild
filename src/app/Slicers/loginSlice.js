@@ -12,7 +12,7 @@ const initialState = {
   last_name:"",
 
 };
-
+// Login Slice set the token for the user and retunes his details
 export const LoginAsync = createAsyncThunk(
   "login/Login",
   async (loginData) => {
@@ -39,17 +39,7 @@ export const LoginSlice = createSlice({
           state.email = jwtDecode(state.token).email
           console.log(state.userName)
           console.log(state.token)
-          // state.email = jwt_decode(action.payload.access).eeemail
-          // console.log( state.email)
         }
-      // }).addCase(doSignOutAsync.fulfilled, (state, action) => {
-      //   console.log("log out")
-      //   state.token = ""
-      //   state.logged = false;
-      //   state.userName = ""
-      //   state.email = ""
-      //   // console.log( state.email)
-      // });
   })
   },
 });

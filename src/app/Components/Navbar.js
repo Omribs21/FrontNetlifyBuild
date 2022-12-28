@@ -18,11 +18,11 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
 import React, { useState, useEffect } from 'react'
 import { selectToken } from '../Slicers/loginSlice';
-import { GetWishlistAsync, selectproductswishlist, selectlength } from '../Slicers/getWishlistSlice'
+import { GetWishlistAsync,selectlength } from '../Slicers/getWishlistSlice'
 import 'animate.css';
 import WishlistDrawer from './DrawerComponents/WishlistDrawer';
 import MyCartDrawer from './DrawerComponents/MycartDrawer';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { selecttotalQuantity } from '../Slicers/CartSlice';
 import { selectProductQuantity } from '../Slicers/MycartSlice';
@@ -69,19 +69,21 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function PrimarySearchAppBar() {
+
+  const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [TokenValue, setTokenValue] = useState(false)
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const token = useSelector(selectToken);
-  const [TokenValue, setTokenValue] = useState(false)
-  const dispatch = useDispatch()
-  const Products = useSelector(selectproductswishlist)
   const WishlistLength = useSelector(selectlength)
   const totalQuantity = useSelector(selecttotalQuantity)
   const totalProductQuantity = useSelector(selectProductQuantity)
+  
+  // Check if the user logged in.
   useEffect(() => {
-    if (token != "") {
+    if (token !== "") {
       setTokenValue(true);
     }
     else { setTokenValue(false) }

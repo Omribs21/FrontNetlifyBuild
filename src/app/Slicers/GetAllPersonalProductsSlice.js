@@ -5,6 +5,7 @@ const initialState = {
     status:false
 };
 
+//  get all of the PersonalProducts slice
 export const GetAllPersonalProductsAsync = createAsyncThunk(
     "getallpersonalprods/getallproducts",
     async () => {

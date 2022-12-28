@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectUserName, selectToken } from '../Slicers/loginSlice';
 import { doSignOutAsync, selectTokenLogOut } from '../Slicers/logoutSlice';
 import { Link } from 'react-router-dom';
-
+// The AccountMenu that the User see after he logged in
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const dispatch = useDispatch()

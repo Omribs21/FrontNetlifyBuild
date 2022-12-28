@@ -4,9 +4,7 @@ const initialState = {
 
 };
 
-
-
-
+// remove 1 item from the wishlist
 export const RemoveFromWishlistAsync = createAsyncThunk(
     "Removefromwishlist/RemoveItemFromWishlist",
 

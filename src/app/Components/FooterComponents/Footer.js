@@ -2,6 +2,8 @@ import React from 'react'
 import CustomizedDialogs from './TermsOfService'
 import ContactUs from './ContactUs'
 import ReturnPolicy from './ReturnPolicy'
+
+// footer for the app, has 3 other components with extra data for the user and some nice CSS :)
 const Footer = () => {
     return (
         <div>

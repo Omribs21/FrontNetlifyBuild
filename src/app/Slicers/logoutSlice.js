@@ -9,7 +9,7 @@ const initialState = {
 
 };
 
-
+// log the user out 
 export const doSignOutAsync = createAsyncThunk(
   'logout/myLogout',
   async (token) => {

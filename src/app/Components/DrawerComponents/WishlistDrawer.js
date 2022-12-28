@@ -10,7 +10,7 @@ import { selectToken } from '../../Slicers/loginSlice'
 import { GetAllProductsAsync, selectAllprods } from '../../Slicers/GetAllProductsSlice'
 import { RemoveFromWishlistAsync } from '../../Slicers/RemoveFromWishlistSlice';
 import { selectUserName, selectUserId } from '../../Slicers/loginSlice';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CleanWishlistAsync } from '../../Slicers/CleanWishlistSlice';
 import { selectProductImages } from '../../Slicers/ImagesSlice';
@@ -72,7 +72,18 @@ export default function WishlistDrawer() {
     }
 
     const clean = () => {
+        toast.info("Your Wishlist is Empty! try to refresh.", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+            theme: "colored",
+        });
         dispatch(CleanWishlistAsync({ "Token": token, "userID": userId }));
+      
     }
     return (
         <div>
@@ -92,6 +103,7 @@ export default function WishlistDrawer() {
                         onOpen={toggleDrawer(anchor, true)}
                     >
                         {list(anchor)}
+                        {/* rendering the products in the wishlish with option to remove them. */}
                         <div>
                             <div key={1}>
                                 <button class="animate__animated animate__backInDown" style={{ marginTop: "5%", marginBottom: "5%", width: "100%", fontSize: "20px", color: "white", backgroundColor: "dodgerblue" }} onClick={() => { dispatch(GetWishlistAsync({ "Token": token })) }}>Show My Wishlist</button>
@@ -100,10 +112,12 @@ export default function WishlistDrawer() {
                                 <div key={2}>
                                     {Wishlistproducts.length > 0 ? Wishlistproducts.map((prod, index) =>
                                         <div class="animate__animated animate__backInUp" style={{ textAlign: "center", fontSize: "20px", marginTop: "5%" }}>
-                                            <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-                                                Product: {allProds[index].desc} <br></br>
-                                                Price: {allProds[index].price}
-                                                <img style={{ width: "100px", height: "100px" }} src={productImages[index].front}></img>
+                                            <div key={3} style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
+                                                {console.log(prod)}
+                                                {console.log(allProds[0].desc)}
+                                                Product: {allProds[prod.prod_id-1].desc} <br></br>
+                                                Price: {allProds[prod.prod_id-1].discount_price}
+                                            <img style={{ width: "100px", height: "100px" }} src={productImages[prod.prod_id-1].front}></img> 
                                             </div>
 
                                             <div key={3} style={{ display: "flex", flexDirection: "row", justifyContent: "center" }}>

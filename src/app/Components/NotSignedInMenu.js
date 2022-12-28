@@ -6,8 +6,9 @@ import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-
 import { Link } from 'react-router-dom';
+
+//The Accountmenu the User see before he logged in.
 
 export default function NotSignedInAcc() {
   const [anchorEl, setAnchorEl] = React.useState(null);

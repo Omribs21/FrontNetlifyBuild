@@ -3,7 +3,7 @@ import { AddOrder } from "../API/FinalBuyAPI";
 const initialState = {
 
 };
-
+// final buy slice.
 export const addOrderAsync = createAsyncThunk(
     "addorder/AddNewProduct",
 

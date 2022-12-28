@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { json } from "react-router-dom";
 import { GetProdFromWishlist } from "../API/GetProdWishlist";
 const initialState = {
     products: [],
-    size :0
 };
 
+//  get 1 product of the wishlist
 export const GetProdFromWishlistAsync = createAsyncThunk(
     "Getprodfromwishlist/GetProdFromWishlist",
     async (data) => {
@@ -17,17 +16,7 @@ export const GetProdFromWishlistAsync = createAsyncThunk(
   export const GetProdFromWishlistSlice = createSlice({
     name: "Getprodfromwishlist",
     initialState,
-    reducers: {
-      size: (state) =>{
-        const x =(JSON.parse(state.size))
-        const count =0
-        x.forEach(element => {
-          count += 1
-        });
-        state.size =count;
-      }
-
-    },
+    reducers: {},
     extraReducers: (builder) => {
       builder.addCase(GetProdFromWishlistAsync.fulfilled, (state, action) => {
         console.log(action.payload)
@@ -36,6 +25,5 @@ export const GetProdFromWishlistAsync = createAsyncThunk(
     },
   });
   
-export const {size} =GetProdFromWishlistSlice.actions
 export const selectallprods = (state) =>state.Getprodfromwishlist.products;
 export default GetProdFromWishlistSlice.reducer;

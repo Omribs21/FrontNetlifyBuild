@@ -4,9 +4,7 @@ const initialState = {
 
 };
 
-
-
-
+// clean the wishlist completly
 export const CleanWishlistAsync = createAsyncThunk(
     "cleanwishlist/CleanWishlist",
 
@@ -16,7 +14,6 @@ export const CleanWishlistAsync = createAsyncThunk(
         return response.data;
     }
 );
-
 
 
 export const CleanWishlistSlice = createSlice({

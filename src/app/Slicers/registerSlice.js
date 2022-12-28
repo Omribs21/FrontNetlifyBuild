@@ -5,7 +5,7 @@ const initialState = {
    register:[]
 
 };
-
+// register the user to the website
 export const RegisterAsync = createAsyncThunk(
     "register/Register",
     async (registerData) => {

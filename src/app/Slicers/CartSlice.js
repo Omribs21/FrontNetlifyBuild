@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+
+//  SLICE FOR THE PERSONALPRODUCTS!! 
+//  Returnes values as: amount,quantity and the products.
 const items = localStorage.getItem('cartItems') != null ?
     JSON.parse(localStorage.getItem('cartItems')) : []
 
@@ -106,7 +108,6 @@ export const cartSlice = createSlice({
 });
 
 export const { addItem,removeItem,deleteItem,cleanCart } = cartSlice.actions;
-
 export const selectCartItems = (state) => state.cart.cartItems;
 export const selecttotalQuantity = (state) => state.cart.totalQuantity
 export const selecttotalAmount = (state) => state.cart.totalAmount

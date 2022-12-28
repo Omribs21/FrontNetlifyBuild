@@ -6,24 +6,23 @@ import Carousel from './app/Components/Carousel';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { GetAllPersonalProductsAsync } from './app/Slicers/GetAllPersonalProductsSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { GetAllProductsAsync } from './app/Slicers/GetAllProductsSlice';
-import { GetOrdersAsync } from './app/Slicers/GetAllOrdersSlice';
-import { selectToken } from './app/Slicers/loginSlice';
-function App() {
 
+function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const check = true
+  // instantly load ALL products as the app load up.
   useEffect(() => {
     if (check) {
       dispatch(GetAllProductsAsync());
       dispatch(GetAllPersonalProductsAsync());
-      navigate("/products");
-    } // navigate instantly to main page 
+      navigate("/products"); // navigate instantly to main page 
+    } 
   }, [])
 
-
+  // the basic template for each page of the app:
   return (
     <div style={{ flexDirection: "column" }} className="App" >
       <Carousel />
@@ -31,8 +30,6 @@ function App() {
       <Outlet />
       <ToastContainer></ToastContainer>
     </div>
-
-
   );
 }
 

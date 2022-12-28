@@ -30,10 +30,14 @@ export default function MyCartDrawer() {
     const token = useSelector(selectToken)
     const totalQuantity = useSelector(selecttotalQuantity)
     const totalAmount = useSelector(selecttotalAmount)
-    const cartItems = useSelector(selectCartItems)
-    const productItems = useSelector(selectProductItems)
-    const images = useSelector(selectImages)
-    const productImage = useSelector(selectProductImages)
+    // Personal products data:
+    const PersonalProductsItems = useSelector(selectCartItems)
+    const PersonalProducsImages = useSelector(selectImages)
+
+    // Official products data:
+    const OfficialProductItems = useSelector(selectProductItems)
+    const OfficialProductsImages = useSelector(selectProductImages)
+
     const totalProductAmount = useSelector(selectProductAmount)
 
     const list = (anchor) => (
@@ -139,11 +143,13 @@ export default function MyCartDrawer() {
                         </div>
 
                         <div>
-                            {cartItems.length > 0 ? <h2 class="animate__animated animate__backInRight" style={{ textAlign: "center", marginBottom: "5%" }}>Personal Customized Products:</h2> : null}
-                            {cartItems.length > 0 ? cartItems.map((prod, index) =>
+                            {/* PERSONAL CUSTOM ITEMS RENDERING */}
+                            {PersonalProductsItems.length > 0 ? <h2 class="animate__animated animate__backInRight" style={{ textAlign: "center", marginBottom: "5%" }}>Personal Customized Products:</h2> : null}
+                            {PersonalProductsItems.length > 0 ? PersonalProductsItems.map((prod, index) =>
                                 <div class="animate__animated animate__backInRight">
                                     <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-                                        <img style={{ width: "100px", height: "100px" }} src={images[prod.prod_id].front} />
+                                        {console.log(prod)}
+                                        <img style={{ width: "100px", height: "100px" }} src={PersonalProducsImages[prod.prod_id].front} />
                                         <div style={{ textAlign: "center", fontSize: "20px" }}>
 
                                             <p style={{ fontSize: "15px" }}>Product name:{prod.desc} | Price:{prod.price}</p>
@@ -159,17 +165,18 @@ export default function MyCartDrawer() {
                                     <hr style={{
                                         borderTop: "2px solid #fff ", marginLeft: 20, marginRight: 20
                                     }}></hr>
-                                    <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalAmount}₪</span></p>
+
                                 </div>
                             ) : null}
-
+                            <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalAmount}₪</span></p>
                             <hr></hr>
-                            {productItems.length > 0 ? <h2 class="animate__animated animate__backInRight" style={{ textAlign: "center", marginBottom: "5%" }}>Official Products:</h2> : null}
 
-                            {productItems.length > 0 ? productItems.map((prod, index) =>
+                            {/* OFFICIAL PRODUCTS RENDERING: */}
+                            {OfficialProductItems.length > 0 ? <h2 class="animate__animated animate__backInRight" style={{ textAlign: "center", marginBottom: "5%" }}>Official Products:</h2> : null}
+                            {OfficialProductItems.length > 0 ? OfficialProductItems.map((prod, index) =>
                                 <div class="animate__animated animate__backInRight">
                                     <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-                                        <img style={{ width: "100px", height: "100px" }} src={productImage[index].front} />
+                                        <img style={{ width: "100px", height: "100px" }} src={OfficialProductsImages[prod.prod_id].front} />
                                         <div style={{ textAlign: "center", fontSize: "20px" }}>
 
                                             <p style={{ fontSize: "15px" }}>Product name:{prod.desc} | Price:{prod.price}</p>
@@ -185,21 +192,20 @@ export default function MyCartDrawer() {
                                     <hr style={{
                                         borderTop: "2px solid #fff ", marginLeft: 20, marginRight: 20
                                     }}></hr>
-                                    <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalProductAmount}₪</span></p>
-
                                 </div>
                             ) : null}
+                            <p class="animate__animated animate__backInUp" style={{ textAlign: "right", marginRight: "5%" }}>Total:<span style={{ marginLeft: "0%" }} >{totalProductAmount}₪</span></p>
 
 
 
                             <div class="animate__animated animate__backInUp" style={{ display: "flex", justifyContent: "center" }}>
-                                {cartItems.length >= 1 ? <button style={{ marginTop: "0%", marginRight: "5%", height: "40%", width: "40%", fontSize: "15px", color: "white", backgroundColor: "dodgerblue", borderRadius: "10px" }} onClick={() => cleanCartItems()}>Clean Personal Products</button> : null}
-                                {productItems.length >= 1 ? <button style={{ marginTop: "0%", marginLeft: "5%", height: "40%", width: "40%", fontSize: "15px", color: "white", backgroundColor: "dodgerblue", borderRadius: "10px" }} onClick={() => cleanMyCartItems()}>Clean Official Products</button> : null}
+                                {PersonalProductsItems.length >= 1 ? <button style={{ marginTop: "0%", marginRight: "5%", height: "40%", width: "40%", fontSize: "15px", color: "white", backgroundColor: "dodgerblue", borderRadius: "10px" }} onClick={() => cleanCartItems()}>Clean Personal Products</button> : null}
+                                {OfficialProductItems.length >= 1 ? <button style={{ marginTop: "0%", marginLeft: "5%", height: "40%", width: "40%", fontSize: "15px", color: "white", backgroundColor: "dodgerblue", borderRadius: "10px" }} onClick={() => cleanMyCartItems()}>Clean Official Products</button> : null}
 
                             </div>
                         </div>
-                        {console.log(productItems.length)}
-                        {cartItems.length >= 1 || productItems.length >= 1 ?
+                        {console.log(OfficialProductItems.length)}
+                        {PersonalProductsItems.length >= 1 || OfficialProductItems.length >= 1 ?
                             <div style={{ fontWeight: "bold" }} >
                                 <br></br>
                                 <p class="animate__animated animate__backInUp" style={{ textAlign: "left", marginLeft: "5%" }}>Cart Total:<span style={{ marginLeft: "50%" }} >{totalAmount + totalProductAmount}₪</span></p>

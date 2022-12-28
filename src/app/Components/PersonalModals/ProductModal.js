@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
@@ -9,16 +9,17 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addItemMyCart, selectProductItems, selectProductQuantity, } from '../../Slicers/MycartSlice';
+import { addItemMyCart, selectProductItems} from '../../Slicers/MycartSlice';
 import { selectAllprods } from '../../Slicers/GetAllProductsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectProductImages } from '../../Slicers/ImagesSlice';
 import { AddToWishlistAsync } from '../../Slicers/AddToWishlistSlice';
 import { selectToken } from '../../Slicers/loginSlice';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import { GetWishlistAsync, selectproductswishlist } from '../../Slicers/getWishlistSlice';
+import {selectproductswishlist } from '../../Slicers/getWishlistSlice';
+import { selectAllprodsByCategory } from '../../Slicers/GetAllProdsByCategorySlice';
 
-
+// component to render all of the PersonalProducts
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -60,11 +61,11 @@ BootstrapDialogTitle.propTypes = {
 
 export default function Productmodal() {
     const [open, setOpen] = React.useState(false);
-    // GET THE RIGHT VALUES FOR EACH CARD THAT OPENS
+    //  THE FUNCTION THAT OPENS THE DIALOG with the selected item details
     const handleClickOpen = (id, index) => {
-        setselectedprice(AllProducts.filter(x => x._id == id)[0].price)
-        setdiscount_price(AllProducts.filter(x => x._id == id)[0].discount_price)
-        setselectedDesc(AllProducts.filter(x => x._id == id)[0].desc)
+        setselectedprice(AllProducts.filter(x => x._id === id)[0].price)
+        setdiscount_price(AllProducts.filter(x => x._id === id)[0].discount_price)
+        setselectedDesc(AllProducts.filter(x => x._id === id)[0].desc)
         setselectfrontpicture(pictures[index].front)
         setselectbackpicture(pictures[index].back)
         setselectedID(id - 1)
@@ -85,14 +86,16 @@ export default function Productmodal() {
     const [discount_price, setdiscount_price] = useState(0)
     const [selectfrontpicture, setselectfrontpicture] = useState(null)
     const [selectbackpicture, setselectbackpicture] = useState(null)
-    const totalQuantity = useSelector(selectProductQuantity)
     const cartItems = useSelector(selectProductItems)
     const AllProducts = useSelector(selectAllprods)
     const pictures = useSelector(selectProductImages)
     const token = useSelector(selectToken)
     const wishlistProds = useSelector(selectproductswishlist)
+    const AllPerfectProds = useSelector(selectAllprodsByCategory)
+    const [WishlistArr, setWishlistArr] = useState([])
+    var count = 0
 
-
+    // function to clean the data of the modal
     const clean = () => {
         setSize("");
         setQuantitycount(0);
@@ -103,7 +106,7 @@ export default function Productmodal() {
     }, [open])
 
     const notify = () => {
-        if (Size == '') {
+        if (Size === '') {
             toast.error('Please fill the Size field.', {
                 position: "top-left",
                 autoClose: 3000,
@@ -115,7 +118,7 @@ export default function Productmodal() {
                 theme: "colored",
             });
         }
-        else if (Quantitycount == 0) {
+        else if (Quantitycount === 0) {
             toast.error('Please fill the Quantity field.', {
                 position: "top-left",
                 autoClose: 3000,
@@ -141,10 +144,11 @@ export default function Productmodal() {
         }
     }
 
-    const FinalAddToWishlist =(token,id) =>{
-        if (token == '') {
-            toast.info('Log in first', {
-                position: "bottom-left",
+    // check if the user can add item to wishlist if so notify for him, otherwise notify as well.
+    const FinalAddToWishlist = (token, id) => {
+        if (token === "") {
+            toast.success('You need to Log in first!', {
+                position: "bottom-right",
                 autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: false,
@@ -155,13 +159,11 @@ export default function Productmodal() {
             });
         }
         else {
-            dispatch(GetWishlistAsync({"Token":token}))
-            console.log(wishlistProds)
-            if (wishlistProds.length == 0)
-            {
-                dispatch(AddToWishlistAsync({ "Token": token, "prod_id": id }));
-                toast.info('item added to your wishlist!', {
-                    position: "bottom-left",
+            if (wishlistProds.length === 0) {
+                dispatch(AddToWishlistAsync({ "Token": token, "prod_id": id }))
+                setWishlistArr(...WishlistArr, id)
+                toast.success('Your item was added!', {
+                    position: "bottom-right",
                     autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: false,
@@ -169,44 +171,47 @@ export default function Productmodal() {
                     draggable: false,
                     progress: undefined,
                     theme: "colored",
-                })
-            }
-            else{
+                });
+            } else {
                 wishlistProds.forEach(element => {
-                if (element.prod_id == id)
-               {
-                toast.info('item already in your wishlist!', {
-                    position: "bottom-left",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: false,
-                    progress: undefined,
-                    theme: "colored",
-                })
-               }
-               else{
-                dispatch(AddToWishlistAsync({ "Token": token, "prod_id": id }));
-                toast.info('item added to your wishlist!', {
-                    position: "bottom-left",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: false,
-                    progress: undefined,
-                    theme: "colored",
-                })
-               }
-            });
+                    if (element.prod_id === id) {
+                        console.log(element.prod_id)
+                        count += 1
+                    }
+                });
+                if (count === 0) {
+                    
+                    dispatch(AddToWishlistAsync({ "Token": token, "prod_id": id }))
+                    toast.success('Your item was added!', {
+                        position: "bottom-right",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                } else{
+                    toast.info('Your item is already in Wishlist!', {
+                        position: "bottom-left",
+                        autoClose: 3000,
+                        hideProgressBar: false,
+                        closeOnClick: false,
+                        pauseOnHover: true,
+                        draggable: false,
+                        progress: undefined,
+                        theme: "colored",
+                    });
+                }
             }
         }
+
     }
 
-   
+
     const FinalAddToMyCart = () => {
-        if (Quantitycount >= 1 && Size != "") {
+        if (Quantitycount >= 1 && Size !== "") {
             dispatch(addItemMyCart({
                 id: cartItems.length + 1,
                 prod_id: selectedID,
@@ -224,26 +229,52 @@ export default function Productmodal() {
         <div style={{ marginTop: "2.5%" }} className="container">
             <div className="row">
                 <div style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
-                    {AllProducts.map((prod, index) =>
-                        <div style={{ display: "flex", order: { index } }} className="col-sm-3">
-                            <div key={index} className="panel panel-primary">
-                                <div style={{ fontSize: "medium" }} className="panel-heading">{prod.desc}</div> {/*name of the product */}
-                                <div className="panel-body">
-                                    <div >
-                                        <Button onClick={() => handleClickOpen(prod._id, index)}>
-                                            <img style={{ width: "250px", height: "250px" }} src={pictures[index].front}></img>
-                                        </Button>
+
+                    {console.log(AllPerfectProds.length)}
+                    {AllPerfectProds.length >= 1 ? AllProducts.map((prod, index) =>
+                        <div style={{ display: "flex", flexWrap: "wrap", flexDirection: "row" }}>
+                            <div style={{ display: "flex", order: { index } }} className="col-sm-3">
+                                {prod.category === AllPerfectProds[0].category ? <div key={2} className="panel panel-primary">
+                                    <div style={{ fontSize: "medium" }} className="panel-heading">{prod.desc}</div> {/*name of the product */}
+                                    <div className="panel-body">
+                                        <div >
+                                            <Button onClick={() => handleClickOpen(prod._id, index)}>
+                                                <img style={{ width: "250px", height: "250px" }} src={pictures[index].front} alt="front"></img>
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ color: "black", fontSize: "25px", display: "flex", flexDirection: "row", justifyContent: "center" }} className="panel-footer">
+
+                                        {/* <button style={{ fontSize: "10px", marginRight: "15%" }} onClick={() => FinalAddToWishlist(token, prod._id)} type="button" className="btn btn-primary" ><FavoriteBorderIcon style={{ width: "20px", height: "20px" }} ></FavoriteBorderIcon>+</button> */}
+                                        <p style={{ margin: "auto" }}><del>{prod.price}₪</del> {prod.discount_price}₪</p>
+                                    </div>
+                                </div>
+                                    : null}
+
+                            </div>
+                        </div>) : AllProducts.map((prod, index) =>
+                            <div style={{ display: "flex", order: { index } }} className="col-sm-3">
+                                <div key={1} className="panel panel-primary">
+                                    <div style={{ fontSize: "medium" }} className="panel-heading">{prod.desc}</div> {/*name of the product */}
+                                    <div className="panel-body">
+                                        <div >
+                                            <Button onClick={() => handleClickOpen(prod._id, index)}>
+                                                <img style={{ width: "250px", height: "250px" }} src={pictures[index].front}  alt="front"></img>
+                                            </Button>
+                                        </div>
+                                    </div>
+
+                                    <div style={{ color: "black", fontSize: "25px", display: "flex", flexDirection: "row", justifyContent: "center" }} className="panel-footer">
+
+                                        {/* <button style={{ fontSize: "10px", marginRight: "15%" }} onClick={() => FinalAddToWishlist(token, prod._id)} type="button" className="btn btn-primary" ><FavoriteBorderIcon style={{ width: "20px", height: "20px" }} ></FavoriteBorderIcon>+</button> */}
+                                        <p style={{ margin: "auto" }}><del>{prod.price}₪</del> {prod.discount_price}₪</p>
                                     </div>
                                 </div>
 
-                                <div style={{ color: "black", fontSize: "25px", display: "flex", flexDirection: "row", justifyContent: "center" }} className="panel-footer">
 
-                                    <button style={{ fontSize: "10px",marginRight:"15%" }} onClick={() => FinalAddToWishlist(token,prod._id)} type="button" className="btn btn-primary" ><FavoriteBorderIcon style={{ width: "20px", height: "20px" }} ></FavoriteBorderIcon>+</button>
-                                    <p  style={{margin:"auto" }}><del>{prod.price}₪</del> {prod.discount_price}₪</p>
-                                </div>
-                            </div>
-                        </div>
-                    )}
+                            </div>)}
+
                     <BootstrapDialog
                         onClose={handleClose}
                         aria-labelledby="customized-dialog-title"
@@ -279,7 +310,7 @@ export default function Productmodal() {
 
                                             <input required style={{ width: "45%", marginLeft: "0px", blockSize: "30px", fontSize: "15px" }} type={"number"} min={1} max={10} value={Number(Quantitycount)} onChange={(e) => setQuantitycount(e.target.value)} />
 
-                                            <button style={{ fontSize: "10px", marginTop: "15%" }} onClick={() => FinalAddToWishlist(token,selectedID+1)} type="button" className="btn btn-primary" ><FavoriteBorderIcon style={{ width: "20px", height: "20px" }} ></FavoriteBorderIcon>+</button>
+                                            <button style={{ fontSize: "10px", marginTop: "15%" }} onClick={() => FinalAddToWishlist(token, (selectedID + 1))} type="button" className="btn btn-primary" ><FavoriteBorderIcon style={{ width: "20px", height: "20px" }} ></FavoriteBorderIcon>+</button>
 
                                         </div>
                                         <div onMouseOver={() => setOver(true)}

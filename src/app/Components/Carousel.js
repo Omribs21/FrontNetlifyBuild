@@ -1,5 +1,5 @@
 import React from 'react'
-
+//Basic carousel to show information for the customer
 const Carousel = () => {
     return (
         <div>

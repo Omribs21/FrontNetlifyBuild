@@ -9,11 +9,13 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addItem, selecttotalQuantity, selectCartItems } from '../../Slicers/CartSlice';
+import { addItem,  selectCartItems } from '../../Slicers/CartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectAllPersonalprods } from '../../Slicers/GetAllPersonalProductsSlice';
-
 import { selectImages } from '../../Slicers/ImagesSlice';
+
+// component to render all of the OfficialProducts
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -56,12 +58,11 @@ BootstrapDialogTitle.propTypes = {
 export default function Testmodal() {
     const [open, setOpen] = React.useState(false);
 
-    //  THE FUNCTION THAT OPENS THE DIALOG IN LINE: 220
+    //  THE FUNCTION THAT OPENS THE DIALOG with the selected item details
     const handleClickOpen = (id) => {
-        // console.log("aaaaaaaaaaa" + id)
-        setselectedprice(AllPersonalProducts.filter(x => x._id == id)[0].price)
-        console.log(AllPersonalProducts.filter(x => x._id == id))
-        setselectedDesc(AllPersonalProducts.filter(x => x._id == id)[0].desc)
+        setselectedprice(AllPersonalProducts.filter(x => x._id === id)[0].price)
+        console.log(AllPersonalProducts.filter(x => x._id === id))
+        setselectedDesc(AllPersonalProducts.filter(x => x._id === id)[0].desc)
         setselectfrontpicture(pictures[id - 1].front)
         setselectbackpicture(pictures[id - 1].back)
         console.log(id)
@@ -85,7 +86,6 @@ export default function Testmodal() {
     const [selectedprice, setselectedprice] = useState(0)
     const [selectfrontpicture, setselectfrontpicture] = useState(null)
     const [selectbackpicture, setselectbackpicture] = useState(null)
-    const totalQuantity = useSelector(selecttotalQuantity)
     const cartItems = useSelector(selectCartItems)
     const AllPersonalProducts = useSelector(selectAllPersonalprods)
     const pictures = useSelector(selectImages)
@@ -99,6 +99,7 @@ export default function Testmodal() {
         { value: 'FrenchLeague', text: 'French League' },
         { value: 'ChampionsLeague', text: 'Champions League' },
     ];
+
     const [selected, setSelected] = useState(options[0].value);
 
     const handleChange = event => {
@@ -127,7 +128,7 @@ export default function Testmodal() {
     }, [open])
 
     const notify = () => {
-        if (BackName == '') {
+        if (BackName === '') {
             toast.error('Please fill the Name field.', {
                 position: "top-left",
                 autoClose: 3000,
@@ -139,7 +140,7 @@ export default function Testmodal() {
                 theme: "colored",
             });
         }
-        else if (Size == "") {
+        else if (Size === "") {
             toast.error('Please fill the Size field.', {
                 position: "top-left",
                 autoClose: 3000,
@@ -151,7 +152,7 @@ export default function Testmodal() {
                 theme: "colored",
             });
         }
-        else if (Quantitycount == 0) {
+        else if (Quantitycount === 0) {
             toast.error('Please fill the Quantity field.', {
                 position: "top-left",
                 autoClose: 3000,
@@ -180,7 +181,7 @@ export default function Testmodal() {
     // FINAL CHECK BEFORE SENDING THE ORDER:
 
     const FinalAddToCart = () => {
-        if (Quantitycount >= 1 && BackName.length > 1 && BackNumber >= 0 && BackNumber < 100 && Size != "") {
+        if (Quantitycount >= 1 && BackName.length > 1 && BackNumber >= 0 && BackNumber < 100 && Size !== "") {
             dispatch(addItem({
                 id: cartItems.length + 1,
                 prod_id: selectedID,
@@ -209,7 +210,7 @@ export default function Testmodal() {
                                 <div className="panel-body">
                                     <div >
                                         <Button onClick={() => handleClickOpen(prod._id)}>
-                                            <img style={{ width: "250px", height: "250px" }} src={pictures[index].front}></img>
+                                            <img style={{ width: "250px", height: "250px" }} src={pictures[index].front} alt="front"></img>
                                         </Button>
                                     </div>
                                 </div>

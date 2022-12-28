@@ -4,6 +4,7 @@ const initialState = {
     AllProducts: [],
 };
 
+//  get all OfficialProducts.
 export const GetAllProductsAsync = createAsyncThunk(
     "getallprods/getallproducts",
     async () => {

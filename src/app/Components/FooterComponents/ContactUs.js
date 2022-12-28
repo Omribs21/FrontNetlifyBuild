@@ -65,7 +65,6 @@ export default function ContactUs() {
 
         <Button style={{ color: "white", fontSize: "15px" }} variant="filled" onClick={handleClickOpen}>
           Contact Us  <ArrowForwardIcon style={{fontSize:"large"}}/>
-          {/* <ArrowForwardIcon style={{fontSize:"large"}}/> */}
         </Button>
         <div>
           <a style={{  }} href="https://www.instagram.com/sofa_sportim/" target={"_blank"} class="fa fa-instagram"></a>
@@ -86,7 +85,7 @@ export default function ContactUs() {
         <DialogContent dividers>
           <Typography gutterBottom>
             <p>
-              Email:
+              Email:omri@gmail.com
             </p>
           </Typography>
           <Typography gutterBottom>

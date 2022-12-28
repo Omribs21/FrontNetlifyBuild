@@ -6,7 +6,7 @@ const initialState = {
     length : 0
 
 };
-
+// get the wishlist of the user and its length
 export const GetWishlistAsync = createAsyncThunk(
     "getwishlist/GetWishlist",
     async (payload) => {
